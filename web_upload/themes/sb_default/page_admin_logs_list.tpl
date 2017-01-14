@@ -1,6 +1,8 @@
 {if NOT $permission_listlogs}
 	Access Denied!
 {else}
+	{php} require (TEMPLATES_PATH . "/admin.logs.search.php");{/php}
+
 	<h3>Server Logs ({$log_count})</h3>
 	<table width="100%" cellpadding="1">
 		<tr>
