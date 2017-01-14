@@ -233,3 +233,58 @@ CREATE TABLE IF NOT EXISTS `{prefix}_comms` (
   KEY `created` (`created`),
   KEY `aid` (`aid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_player_ids` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `steamid` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`steamid`),
+  KEY (`id`)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_player_ips` (
+  `playerid` INT NOT NULL,
+  `ip` VARCHAR(15) NOT NULL,
+  `last_seen` DATETIME NOT NULL,
+  PRIMARY KEY (`playerid`, `ip`),
+  FOREIGN KEY (`playerid`) REFERENCES `{prefix}_player_ids`(`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_player_names` (
+  `playerid` INT NOT NULL,
+  `name` VARCHAR(32) NOT NULL,
+  `last_seen` DATETIME NOT NULL,
+  PRIMARY KEY (`playerid`, `name`),
+  FOREIGN KEY (`playerid`) REFERENCES `{prefix}_player_ids`(`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_games` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `serverid` INT NOT NULL,
+  `hostname` VARCHAR(64) NOT NULL,
+  `started_at` DATETIME NOT NULL,
+  `ended_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY(`serverid`, `started_at`)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_game_events` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `gameid` INT NOT NULL,
+  `playerid` INT,
+  `time` DATETIME NOT NULL,
+  `name` VARCHAR(32) NOT NULL,
+  `flags` INT,
+  `text` TEXT,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`gameid`) REFERENCES `{prefix}_games`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`playerid`) REFERENCES `{prefix}_player_ids`(`id`) ON DELETE SET NULL
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `{prefix}_game_players` (
+  `gameid` INT NOT NULL,
+  `playerid` INT,
+  PRIMARY KEY (`gameid`, `playerid`),
+  FOREIGN KEY (`gameid`) REFERENCES `{prefix}_games`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`playerid`) REFERENCES `{prefix}_player_ids`(`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8;
+
