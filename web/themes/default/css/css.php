@@ -1299,3 +1299,37 @@ div.contextmenu .separator {
 hr {
 	border: 1px solid #ddd;
 }
+
+/** ================ Logs ================ **/
+
+.log {
+	background-color: rgb(75, 75, 75);
+}
+
+.logtime {
+	color: rgb(158, 195, 79);
+}
+
+.logteam {
+	color: rgb(210, 200, 152);
+}
+
+.lognamespec {
+	color: rgb(205, 205, 205);
+}
+
+.lognamesurv {
+	color: rgb(139, 183, 221);
+}
+
+.lognameinf {
+	color: rgb(210, 13, 17);
+}
+
+.logtextsrv {
+	color: rgb(217, 147, 4);
+}
+
+.logtext {
+	color: rgb(210, 200, 152);
+}
