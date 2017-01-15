@@ -768,6 +768,12 @@ function AddServer($ip, $port, $rcon, $rcon2, $mod, $enabled, $group, $group_nam
 	return $objResponse;
 }
 
+function IncludeAsString($path)
+{
+	ob_start();
+	include $path;
+	return ob_get_clean();
+}
 
 function UpdateGroupPermissions($gid)
 {
@@ -776,13 +782,13 @@ function UpdateGroupPermissions($gid)
 	$gid = (int)$gid;
 	if($gid == 1)
 	{
-		$permissions = @file_get_contents(TEMPLATES_PATH . "/groups.web.perm.php");
-		$permissions = str_replace("{title}", "Web Admin Permissions", $permissions);
+		$GLOBALS['title'] = "Web Admin Permissions";
+		$permissions = IncludeAsString(TEMPLATES_PATH . "/groups.web.perm.php");
 	}
 	elseif($gid == 2)
 	{
-		$permissions = @file_get_contents(TEMPLATES_PATH . "/groups.server.perm.php");
-		$permissions = str_replace("{title}", "Server Admin Permissions", $permissions);
+		$GLOBALS['title'] = "Server Admin Permissions";
+		$permissions = IncludeAsString(TEMPLATES_PATH . "/groups.server.perm.php");
 	}
 	elseif($gid == 3)
 		$permissions = "";
@@ -810,14 +816,14 @@ function UpdateAdminPermissions($type, $value)
 		$id = "web";
 		if($value == "c")
 		{
-			$permissions = @file_get_contents(TEMPLATES_PATH . "/groups.web.perm.php");
-			$permissions = str_replace("{title}", "Web Admin Permissions", $permissions);
+			$GLOBALS['title'] = "Web Admin Permissions";
+			$permissions = IncludeAsString(TEMPLATES_PATH . "/groups.web.perm.php");
 		}
 		elseif($value == "n")
 		{
-			$permissions = @file_get_contents(TEMPLATES_PATH . "/group.name.php") . @file_get_contents(TEMPLATES_PATH . "/groups.web.perm.php");
-			$permissions = str_replace("{name}", "webname", $permissions);
-			$permissions = str_replace("{title}", "New Group Permissions", $permissions);
+			$GLOBALS['name'] = "webname";
+			$GLOBALS['title'] = "New Group Permissions";
+			$permissions = IncludeAsString(TEMPLATES_PATH . "/group.name.php") . IncludeAsString(TEMPLATES_PATH . "/groups.web.perm.php");
 		}
 		else
 			$permissions = "";
@@ -827,14 +833,14 @@ function UpdateAdminPermissions($type, $value)
 		$id = "server";
 		if($value == "c")
 		{
-			$permissions = file_get_contents(TEMPLATES_PATH . "/groups.server.perm.php");
-			$permissions = str_replace("{title}", "Server Admin Permissions", $permissions);
+			$GLOBALS['title'] = "Server Admin Permissions";
+			$permissions = IncludeAsString(TEMPLATES_PATH . "/groups.server.perm.php");
 		}
 		elseif($value == "n")
 		{
-			$permissions = @file_get_contents(TEMPLATES_PATH . "/group.name.php") . @file_get_contents(TEMPLATES_PATH . "/groups.server.perm.php");
-			$permissions = str_replace("{name}", "servername", $permissions);
-			$permissions = str_replace("{title}", "New Group Permissions", $permissions);
+			$GLOBALS['name'] = "servername";
+			$GLOBALS['title'] = "New Group Permissions";
+			$permissions = IncludeAsString(TEMPLATES_PATH . "/group.name.php") . IncludeAsString(TEMPLATES_PATH . "/groups.server.perm.php");
 		}
 		else
 			$permissions = "";

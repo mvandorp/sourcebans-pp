@@ -69,17 +69,17 @@ if(!$userbank->HasAccess(ADMIN_OWNER|ADMIN_EDIT_ADMINS))
 $web_root = $userbank->HasAccess(ADMIN_OWNER, $_GET['id']);
 $steam = trim($userbank->GetProperty("authid", $_GET['id']));
 $web_flags = intval($userbank->GetProperty("extraflags", $_GET['id']));
-$name = $userbank->GetProperty("user", $_GET['id']);
+$GLOBALS['title'] = $userbank->GetProperty("user", $_GET['id']);
 ?>
 <div id="admin-page-content">
 <div id="add-group">
 <h3>Web Admin Permissions</h3>
 <input type="hidden" id="admin_id" value=<?php echo $_GET['id']?>>
-<?php echo str_replace("{title}", $name, file_get_contents(TEMPLATES_PATH . "/groups.web.perm.php")) ;?>
+<?php include TEMPLATES_PATH . "/groups.web.perm.php"; ?>
 <br />
 <h3>Server Admin Permissions</h3>
 
-<?php echo str_replace("{title}", $name, file_get_contents(TEMPLATES_PATH . "/groups.server.perm.php")) ;?>
+<?php include TEMPLATES_PATH . "/groups.server.perm.php"; ?>
 
 <table width="100%">
 <tr><td>&nbsp;</td>

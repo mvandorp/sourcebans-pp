@@ -1,4 +1,4 @@
-<?php 
+<?php
 // *************************************************************************
 //  This file is part of SourceBans++.
 //
@@ -25,10 +25,13 @@
 //
 // *************************************************************************
 
-if(!defined("IN_SB")){echo "You should not be here. Only follow links!";die();} ?>
+if(!defined("IN_SB")){echo "You should not be here. Only follow links!";die();}
+global $title;
+?>
+
 <table width="90%" border="0" cellspacing="0" cellpadding="4" align="center">
   <tr>
-    <td colspan="3"><h4 id="webtop">{title}</h4></td>
+    <td colspan="3"><h4 id="webtop"><?php echo htmlspecialchars($title); ?></h4></td>
   </tr>
   <tr id="wrootcheckbox" name="wrootcheckbox">
     <td colspan="2" class="tablerow2">Root Admin (Full Admin Access)</td>
@@ -208,3 +211,4 @@ if(!defined("IN_SB")){echo "You should not be here. Only follow links!";die();} 
     <td align="center" class="tablerow1"><input type="checkbox" name="p31" id="p31" /></td>
   </tr>
 </table>
+

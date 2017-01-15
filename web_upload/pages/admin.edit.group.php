@@ -25,8 +25,7 @@
 //
 // *************************************************************************
 
-if(!defined("IN_SB")){echo "You should not be here. Only follow links!";die();} 
-
+if(!defined("IN_SB")){echo "You should not be here. Only follow links!";die();}
 
 if(!isset($_GET['id']))
 {
@@ -59,7 +58,7 @@ $srv_group = $GLOBALS['db']->GetRow("SELECT flags, name, immunity FROM ".DB_PREF
 $web_flags = intval($web_group[0]);
 $srv_flags = isset($srv_group[0]) ? $srv_group[0] : '';
 
-$name = $userbank->GetProperty("user", $_GET['id']);
+$GLOBALS['title'] = $userbank->GetProperty("user", $_GET['id']);
 ?>
 <div id="admin-page-content">
 <div id="add-group">
@@ -76,11 +75,10 @@ $name = $userbank->GetProperty("user", $_GET['id']);
 <?php if($_GET['type'] == "web")
 {?>
 <h3>Web Admin Permissions</h3>
-<?php echo str_replace("{title}", $name, @file_get_contents(TEMPLATES_PATH . "/groups.web.perm.php")) ;?>
+<?php include TEMPLATES_PATH . "/groups.web.perm.php"; ?>
 <br /><?php }elseif($_GET['type'] == "srv"){?>
 <h3>Server Admin Permissions</h3>
-<?php  $permissions = str_replace("{title}", $name, @file_get_contents(TEMPLATES_PATH . "/groups.server.perm.php")) ;
-echo $permissions;
+<?php include TEMPLATES_PATH . "/groups.server.perm.php";
 
 // Group overrides
 // ALERT >>> GROSS CODE MIX <<<
