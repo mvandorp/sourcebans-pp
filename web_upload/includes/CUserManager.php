@@ -287,5 +287,16 @@ class CUserManager
 		$GLOBALS['db']->Execute($add_admin,array($name, $steam, $this->encrypt_password($password), $web_group, $email, $web_flags, $immunity, $srv_group, $srv_flags, $srv_password));
 		return ($add_admin) ? (int)$GLOBALS['db']->Insert_ID() : -1;
 	}
+
+	function CanEditComment($cid)
+	{
+		if ($this->HasAccess(ADMIN_OWNER)) {
+			return true;
+		}
+
+		$query = $GLOBALS['db']->GetRow("SELECT COUNT(cid) AS cnt FROM `".DB_PREFIX."_comments` WHERE cid = ? AND aid = ?", array((int)$cid, $this->aid));
+
+		return ((int)$query['cnt']) == 1;
+	}
 }
 ?>
